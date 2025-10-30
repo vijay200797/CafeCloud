@@ -1,18 +1,23 @@
 from fastapi import FastAPI, HTTPException, Depends
 from models import  Base
 from database import engine,get_db
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, configure_mappers, registry
 from sqlalchemy import text
 from routers import orders
 from config import settings
 
+api = FastAPI(
+            # swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
+            # root_path_in_servers="/app",
+            # version="3.0.0",
+            # docs_url="/app/docs",  # Example with a root path
+            # openapi_url="/app/openapi.json", # Example with a root path
 
-api = FastAPI(swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
-              openapi_url="/app/v1/openapi.json")
+              )
 Base.metadata.create_all(engine)
+configure_mappers()
+registry.configure()
 
-# app.include_router(authentication.router)
-# app.include_router(blog.router)
 api.include_router(orders.router)
 
 @api.get("/health")
@@ -32,4 +37,4 @@ def health(db: Session = Depends(get_db)):
 
 if __name__=="__main__":
     import  uvicorn
-    uvicorn.run(api, host="127.0.0.1", port=8000)
+    uvicorn.run(api, host="127.0.0.1", port=8080) # , 
