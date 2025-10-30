@@ -1,7 +1,10 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
+class OrderItems(BaseModel):
+    name: str
+    qty : int
 
 class Orders(BaseModel):
-    cutomer_id: str
-    status: str
+    customer_id: str
+    order_items: List[OrderItems] = []

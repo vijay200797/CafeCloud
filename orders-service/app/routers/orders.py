@@ -23,6 +23,7 @@ def all(db: Session = Depends(get_db)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 def create(request: schemas.Orders, db: Session = Depends(get_db)):
+    print(request)
     return orders.create(request, db)
 
 

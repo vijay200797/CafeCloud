@@ -9,8 +9,26 @@ def get_all(db: Session):
 
 
 def create(request: schemas.Orders, db: Session):
-    new_order = models.Orders(customer_id=request.cutomer_id, status=request.status)
+    print(request)
+    # ab =[models.OrderItems(name = item.name, qty = item.qty) for item in request.items]
+    # # for item in request.items:
+    # #     print(item.name + str(item.qty) )
+    # print(ab)
+    # new_order = models.Orders(customer_id=request.customer_id, status="N")
+    new_order = models.Orders(
+    id = None,    
+    customer_id=request.customer_id,
+    status="N",
+    # order_items  = []
+    order_items=[models.OrderItems(id = None, name = item.name, qty = item.qty) for item in request.order_items]
+    )
+
+    # for item in request.items:
+    #     # print(item.name + str(item.qty) )
+    #     new_order.order_items.append(models.OrderItems(id = None, name = item.name, qty = item.qty))
+
     db.add(new_order)
+    print("1" + new_order)
     db.commit()
     db.refresh(new_order)
     return new_order
