@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: keinos/sqlite3:latest
+    container_name: sqlite
+    hostname: sqlite.hibit
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      - DATABASE_URL=sqlite:////data/app.db # Example connection string
