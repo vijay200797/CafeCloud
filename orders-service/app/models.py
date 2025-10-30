@@ -13,7 +13,7 @@ class Orders(Base):
     status = Column(String, default = "N")
     created_at = Column(DateTime, default=datetime.datetime.now(datetime.timezone.utc))
     # items = relationship("OrderItems", back_populates="order", cascade="all, delete-orphan")
-    order_items: Mapped[List["OrderItems"]] = relationship("app.models.OrderItems", back_populates="order_items")
+    order_items: Mapped[List["OrderItems"]] = relationship("app.models.OrderItems", backref="order_items")
 
 
 class OrderItems(Base):
@@ -25,6 +25,6 @@ class OrderItems(Base):
     qty = Column(Integer)
     
     # order = relationship("Orders", back_populates="items")
-    order: Mapped["Orders"] = relationship("app.models.Orders", back_populates="order_items")
+    # order: Mapped["Orders"] = relationship("app.models.Orders", back_populates="order_items")
 
     
