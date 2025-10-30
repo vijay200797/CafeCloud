@@ -7,16 +7,9 @@ from routers import orders
 from config import settings
 
 api = FastAPI(
-            # swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
-            # root_path_in_servers="/app",
-            # version="3.0.0",
-            # docs_url="/app/docs",  # Example with a root path
-            # openapi_url="/app/openapi.json", # Example with a root path
-
               )
 Base.metadata.create_all(engine)
 configure_mappers()
-# registry.configure()
 
 api.include_router(orders.router)
 
