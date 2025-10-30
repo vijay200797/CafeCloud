@@ -18,9 +18,9 @@ def create(request: schemas.Orders, db: Session):
     new_order = models.Orders(
     id = None,    
     customer_id=request.customer_id,
-    status="N",
+    status="N" #,
     # order_items  = []
-    order_items=[models.OrderItems(id = None, name = item.name, qty = item.qty) for item in request.order_items]
+    # order_items=[models.OrderItems(id = None, name = item.name, qty = item.qty) for item in request.order_items]
     )
 
     # for item in request.items:
@@ -28,7 +28,8 @@ def create(request: schemas.Orders, db: Session):
     #     new_order.order_items.append(models.OrderItems(id = None, name = item.name, qty = item.qty))
 
     db.add(new_order)
-    print("1" + new_order)
+    print(1)
+    print( new_order)
     db.commit()
     db.refresh(new_order)
     return new_order

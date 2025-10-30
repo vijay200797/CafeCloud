@@ -16,7 +16,7 @@ api = FastAPI(
               )
 Base.metadata.create_all(engine)
 configure_mappers()
-registry.configure()
+# registry.configure()
 
 api.include_router(orders.router)
 
