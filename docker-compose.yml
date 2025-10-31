@@ -12,11 +12,11 @@ services:
     environment:
       - DATABASE_URL=sqlite:////data/app.db # Example connection string
   rabbitmq:
-      image: rabbitmq:3.13-management   # includes the management UI
+      image: rabbitmq:3.13-management   
       container_name: rabbitmq
       ports:
-        - "5672:5672"       # AMQP protocol port
-        - "15672:15672"     # Management UI
+        - "5672:5672"       
+        - "15672:15672"     
       environment:
         RABBITMQ_DEFAULT_USER: guest
         RABBITMQ_DEFAULT_PASS: guest
