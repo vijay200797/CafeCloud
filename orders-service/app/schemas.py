@@ -8,3 +8,9 @@ class OrderItems(BaseModel):
 class Orders(BaseModel):
     customer_id: str
     order_items: List[OrderItems] = []
+
+class Order(BaseModel):
+    id : int
+    customer_id: str
+    status : str
+    

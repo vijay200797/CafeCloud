@@ -2,6 +2,7 @@ import pika
 import json
 from config import settings
 import time
+import requests
 
 
 RABBIT_MQ_SERVER = settings.rabbit_mq_server
@@ -45,12 +46,19 @@ def publish_order_completed(order_data):
 def callback(ch, method, properties, body):
     data = json.loads(body)
     print(f" [x] Received message on {method.routing_key}: {data}")
-    # Acknowledge message
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
     time.sleep(4)
-    publish_order_completed(data)
-
+    URL = settings.api_url + "Order/"+ str(data["orderid"])
+    print("Sending Request to complete order To API " +  URL) 
+    HEADERS ={'content-Type': 'application/json'}
+    response = requests.put(url=URL, data= data, headers=HEADERS)
+    rvalue = response.json()
+    if rvalue['status'] == "C":
+        data["status"] = "C"
+        publish_order_completed(data)
+    else:
+        print("Failed to Marked Completed Order")
 
 def listen_to_orders_created():
     connection, channel = __get_connection()
@@ -58,14 +66,11 @@ def listen_to_orders_created():
     exchange_name = 'orders_exchange'
     routing_key = 'orders.created'
 
-    # Declare exchange
     channel.exchange_declare(exchange=exchange_name, exchange_type='topic', durable=True)
 
-    # Create a new queue (exclusive = deleted when connection closes)
     result = channel.queue_declare(queue='', exclusive=True)
     queue_name = result.method.queue
 
-    # Bind the queue to our topic
     channel.queue_bind(exchange=exchange_name, queue=queue_name, routing_key=routing_key)
 
     print(f" [*] Waiting for messages on topic '{routing_key}'. To exit press CTRL+C")

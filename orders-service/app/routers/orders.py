@@ -16,7 +16,7 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.get('/', response_model=List[schemas.Orders])
+@router.get('/', response_model=List[schemas.Order])
 def all(db: Session = Depends(get_db)):
     return orders.get_all(db)
 
@@ -24,3 +24,7 @@ def all(db: Session = Depends(get_db)):
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 def create(request: schemas.Orders, db: Session = Depends(get_db)):
     return orders.create(request, db)
+
+@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Order)
+def update(id:int, db: Session = Depends(get_db)):
+    return orders.update(id, db)
