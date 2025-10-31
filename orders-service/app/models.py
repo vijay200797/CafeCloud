@@ -15,6 +15,9 @@ class Orders(Base):
     # items = relationship("OrderItems", back_populates="order", cascade="all, delete-orphan")
     # order_items: Mapped[List["OrderItems"]] = relationship("app.models.OrderItems", backref="order_items")
 
+    def to_dict(self):
+        return {'orderid': self.id,  'customer_id': self.customer_id, 'status': self.status}
+
 
 class OrderItems(Base):
     __tablename__ = 'order_items'

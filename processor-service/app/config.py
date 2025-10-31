@@ -5,8 +5,8 @@ import os
 load_dotenv()
 
 class Settings(BaseSettings):
+    api_url: str = os.getenv('API_URL')
     database_url: str = os.getenv('DATABASE_URL')
-    secret_key: str = os.getenv('SECRET_KEY')
     rabbit_mq_server: str = os.getenv('RABBIT_MQ_SERVER')
     rabbit_mq_port: str = os.getenv('RABBIT_MQ_PORT')
     rabbit_mq_user: str = os.getenv('RABBIT_MQ_USER')

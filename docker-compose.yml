@@ -11,3 +11,18 @@ services:
       - ./data:/data
     environment:
       - DATABASE_URL=sqlite:////data/app.db # Example connection string
+  rabbitmq:
+      image: rabbitmq:3.13-management   # includes the management UI
+      container_name: rabbitmq
+      ports:
+        - "5672:5672"       # AMQP protocol port
+        - "15672:15672"     # Management UI
+      environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+      volumes:
+        - rabbitmq_data:/var/lib/rabbitmq
+      restart: unless-stopped
+
+volumes:
+  rabbitmq_data:

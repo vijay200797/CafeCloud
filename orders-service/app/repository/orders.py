@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app import models, schemas
+from app import models, schemas, rabbit_mq
 from fastapi import HTTPException, status
 
 
@@ -20,6 +20,7 @@ def create(request: schemas.Orders, db: Session):
     db.add(new_order)
     db.commit()
     db.refresh(new_order)
+    rabbit_mq.publish_order_created(new_order)
     return new_order
 
 
